@@ -69,13 +69,13 @@ javac -version
 Clone the repository:
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/YOUR_REPOSITORY.git
+git clone https://github.com/sdharr/Java-DSA.git
 ```
 
 Navigate into the project directory:
 
 ```bash
-cd YOUR_REPOSITORY
+cd Java-DSA
 ```
 
 Compile a Java file, for example:
