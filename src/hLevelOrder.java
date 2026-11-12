@@ -1,0 +1,135 @@
+import java.util.Scanner;
+import java.util.Queue;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.List;
+
+public class hLevelOrder {
+
+    static class TreeNode {
+
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+    }
+
+    // Level-order traversal using BFS
+    static List<List<Integer>> levelOrder(TreeNode root) {
+
+        List<List<Integer>> result = new ArrayList<>();
+
+        if (root == null) {
+            return result;
+        }
+
+        Queue<TreeNode> queue = new ArrayDeque<>();
+
+        queue.offer(root);
+
+        while (!queue.isEmpty()) {
+
+            int size = queue.size();
+
+            List<Integer> level = new ArrayList<>();
+
+            // Process all nodes at the current level
+            for (int i = 0; i < size; i++) {
+
+                TreeNode current = queue.poll();
+
+                level.add(current.val);
+
+                // Add left child
+                if (current.left != null) {
+                    queue.offer(current.left);
+                }
+
+                // Add right child
+                if (current.right != null) {
+                    queue.offer(current.right);
+                }
+            }
+
+            result.add(level);
+        }
+
+        return result;
+    }
+
+    // Build binary tree from level-order input
+    static TreeNode buildTree(String[] values) {
+
+        if (values.length == 0 ||
+            values[0].equalsIgnoreCase("null")) {
+            return null;
+        }
+
+        TreeNode root = new TreeNode(
+            Integer.parseInt(values[0])
+        );
+
+        Queue<TreeNode> queue = new ArrayDeque<>();
+
+        queue.offer(root);
+
+        int i = 1;
+
+        while (!queue.isEmpty() && i < values.length) {
+
+            TreeNode current = queue.poll();
+
+            // Left child
+            if (i < values.length &&
+                !values[i].equalsIgnoreCase("null")) {
+
+                current.left = new TreeNode(
+                    Integer.parseInt(values[i])
+                );
+
+                queue.offer(current.left);
+            }
+
+            i++;
+
+            // Right child
+            if (i < values.length &&
+                !values[i].equalsIgnoreCase("null")) {
+
+                current.right = new TreeNode(
+                    Integer.parseInt(values[i])
+                );
+
+                queue.offer(current.right);
+            }
+
+            i++;
+        }
+
+        return root;
+    }
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+
+        String[] values = new String[n];
+
+        for (int i = 0; i < n; i++) {
+            values[i] = sc.next();
+        }
+
+        TreeNode root = buildTree(values);
+
+        List<List<Integer>> result = levelOrder(root);
+
+        System.out.println(result);
+
+        sc.close();
+    }
+}
